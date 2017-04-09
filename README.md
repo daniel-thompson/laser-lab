@@ -30,7 +30,7 @@ as rounded edges are much easier to express using the turtle.
 The other utilities are effectively just time-savers to allow various
 SVG operations to be expressed more compactly.
 
-See `laser/` for the laser library code.
+See [laser/](laser/) for the laser library code.
 
 Cases for 96Boards products
 ---------------------------
@@ -45,7 +45,7 @@ The Consumer boards in particular have lots of connectivity options
 making open side cases, possibly with a sandwich design an attractive
 option.
 
-See `96boards/` to see all the available case options for 96Boards
+See [96boards/](96boards/) to see all the available case options for 96Boards
 products.
 
 [1]: https://www.96boards.org/products/ce/
@@ -61,7 +61,7 @@ laser cutter.
 Most of the parts are explained, on an individual basis, in the comments
 at the top of the python file.
 
-See `parts/` for a complete listing.
+See [parts/](parts/) for a complete listing.
 
 Artwork
 -------
@@ -78,7 +78,7 @@ functional. I do add design flourishes, especially rounded corners, but
 even these mostly blend function and form (sharp corners *hurt**). This
 makes them suitable for commercial batch runs where applicable.
 
-In the `art/` section of the lab you can get a glimpse of the final machine
+In the [art/](art/) section of the lab you can get a glimpse of the final machine
 ready artwork that I actually cut. These are typically copied from 
 other parts of the lab and then hand edited in Inkscape to add the 
 artistic flourishes that make the designs come alive.
