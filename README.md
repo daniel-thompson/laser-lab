@@ -73,6 +73,8 @@ example, many commercial cutting operations end up charging for "laser
 time". This normally makes raster engraving un-economic. In fact even 
 complex raster engraving can end up having a big impact on the cutting time.
 
+![96Boards IoT case with redfelineninja artwork](https://cdn.rawgit.com/daniel-thompson/laser-lab/d9de2b67/art/iot96_carbon-art.svg)
+
 For that reason most of the designs in the rest of the lab are primarily
 functional. I do add design flourishes, especially rounded corners, but
 even these mostly blend function and form (sharp corners *hurt**). This
