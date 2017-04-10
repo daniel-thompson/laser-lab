@@ -41,6 +41,8 @@ Consumer Edition][1] and [Iot Edition][2]. Both editions have strong
 height limits across the whole board resulting in an acceptably small 
 number of layers, and resulting in a simple bolt together design.
 
+![96Boards CE case with UART cut out](https://cdn.rawgit.com/daniel-thompson/laser-lab/364ca4d9/art/96boards_ce_top.svg)
+
 The Consumer boards in particular have lots of connectivity options
 making open side cases, possibly with a sandwich design an attractive
 option.
@@ -89,3 +91,8 @@ Note: Whilst the lab as a whole is licensed under CC BY 4.0 the art
 section makes extensive use of Openclipart. The underlying clipart is
 dedicated to the public domain (CC0) by its authors and can be freely
 downloaded from https://openclipart.org .
+
+License
+-------
+
+My laser lab is licensed under [CC BY 4.0](LICENSE.md).
