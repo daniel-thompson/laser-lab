@@ -70,17 +70,17 @@ Artwork
 
 I cut most of my designs on my home laser cutter and generally do very
 short runs (sometimes only one). This means my designs can be free of 
-any commercial constraints imposes on (or by) laser cutting services. For 
+any commercial constraints imposed on laser cutting services. For 
 example, many commercial cutting operations end up charging for "laser 
 time". This normally makes raster engraving un-economic. In fact even 
 complex raster engraving can end up having a big impact on the cutting time.
 
-![96Boards IoT case with redfelineninja artwork](https://cdn.rawgit.com/daniel-thompson/laser-lab/d9de2b67/art/iot96_carbon-art.svg)
-
 For that reason most of the designs in the rest of the lab are primarily
 functional. I do add design flourishes, especially rounded corners, but
-even these mostly blend function and form (sharp corners *hurt**). This
+even these mostly blend function and form (sharp corners *hurt*). This
 makes them suitable for commercial batch runs where applicable.
+
+![96Boards IoT case with redfelineninja artwork](https://cdn.rawgit.com/daniel-thompson/laser-lab/d9de2b67/art/iot96_carbon-art.svg)
 
 In the [art/](art/) section of the lab you can get a glimpse of the final machine
 ready artwork that I actually cut. These are typically copied from 
