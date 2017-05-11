@@ -29,6 +29,7 @@ def base(d, r=5):
 	return g
 
 def top(d, r=5):
+	# TODO: Cutout is probably tailored for the 15x2 connector
 	g = base(d, r)
 	g.add(d.rect((r+7.5, r+0.35), (41.0, 7.3), 0, 0, **cut))
 
@@ -86,3 +87,18 @@ def side(d, r=5):
 	g.add(d.circle((r+56, r+26), 2.5/2, **cut))
 
 	return g
+
+if __name__ == "__main__":
+	d = panel('iot96_carbon.svg', 300, 200)
+
+	d.add(base(d, 3))
+	d.add(translate(top(d, 3), 0, 38))
+
+	d.add(rotate(translate(side(d, 3), 0, 76+66), -90))
+	d.add(rotate(translate(side(d, 3), 0+12, 76+66+12), -90))
+	d.add(rotate(translate(side(d, 3), 0+24, 76+66+24), -90))
+	d.add(rotate(translate(pillar(d, 3), 0+36-7, 76+36+10), -90))
+	d.add(rotate(translate(pillar(d, 3), 0+36-7, 76+36+10+12), -90))
+	d.add(rotate(translate(pillar(d, 3), 0+36-7, 76+36+10+24), -90))
+
+	d.save()

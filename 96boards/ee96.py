@@ -29,3 +29,11 @@ def base(d, r=5):
 	return g
 
 top = base
+
+if __name__ == "__main__":
+	d = panel('ee96.svg', 170, 262)
+
+	d.add(base(d))
+	d.add(translate(top(d), 0, 132))
+
+	d.save()
