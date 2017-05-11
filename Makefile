@@ -1,7 +1,7 @@
 PYTHON = python3
 
 
-LIB = 96boards/ce96.py 96boards/iot96.py
+LIB = 96boards/ce96.py 96boards/ee96.py 96boards/iot96.py
 SRC = $(filter-out $(LIB),$(wildcard 96boards/*.py paper/*.py parts/*.py private/*.py))
 ART = $(SRC:.py=.svg)
 DOCS = K40.html
