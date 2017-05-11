@@ -68,6 +68,17 @@ class Turtle(object):
 		self.p.push_arc(end, self.direction, radius, large_arc, angle_dir)
 
 		return self
+
+	def slot(self, depth, thickness, cut_width=0.2):
+		self.forward(cut_width/2)
+		self.right(90)
+		self.forward(depth - cut_width/2)
+		self.left(90)
+		self.forward(thickness - cut_width)
+		self.left(90)
+		self.forward(depth - cut_width/2)
+		self.right(90)
+		self.forward(cut_width/2)
 	
 	def close(self):
 		self.p.push('z')
