@@ -87,14 +87,20 @@ class Turtle(object):
 		self.p.push('c', c1[0], c1[1], c2[0], c2[1], d[0], d[1])
 
 
-	def slot(self, depth, thickness, cut_width=0.2):
+	def slot(self, depth, thickness, cut_width=0.2, radius=0):
 		self.forward(cut_width/2)
 		self.right(90)
-		self.forward(depth - cut_width/2)
-		self.left(90)
-		self.forward(thickness - cut_width)
-		self.left(90)
-		self.forward(depth - cut_width/2)
+		self.forward(depth - cut_width/2 - radius)
+		if radius:
+			self.arc(-90, radius)
+		else:
+			self.left(90)
+		self.forward(thickness - cut_width - 2*radius)
+		if radius:
+			self.arc(-90, radius)
+		else:
+			self.left(90)
+		self.forward(depth - cut_width/2 - radius)
 		self.right(90)
 		self.forward(cut_width/2)
 	
