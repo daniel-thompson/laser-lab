@@ -69,14 +69,38 @@ class Turtle(object):
 
 		return self
 
-	def slot(self, depth, thickness, cut_width=0.2):
+	def curve(self, movement, angle, control_points):
+		d1 = [ i*movement[0] for i in self._vector(self.direction) ]
+		d2 = [ i*movement[1] for i in self._vector(self.direction + 90) ]
+		d = [ i+j for i, j in zip(d1, d2) ]
+		self.curvexy(d, angle, control_points)
+
+	
+	def curvexy(self, movement, angle, control_points):
+		d = movement
+
+		c1 = [ i*control_points[0] for i in self._vector(self.direction) ]
+		self.direction += angle
+		c2 = [ i*control_points[1] for i in self._vector(self.direction+180) ]
+		c2 = [ i+j for i, j in zip(d, c2) ]
+
+		self.p.push('c', c1[0], c1[1], c2[0], c2[1], d[0], d[1])
+
+
+	def slot(self, depth, thickness, cut_width=0.2, radius=0):
 		self.forward(cut_width/2)
 		self.right(90)
-		self.forward(depth - cut_width/2)
-		self.left(90)
-		self.forward(thickness - cut_width)
-		self.left(90)
-		self.forward(depth - cut_width/2)
+		self.forward(depth - cut_width/2 - radius)
+		if radius:
+			self.arc(-90, radius)
+		else:
+			self.left(90)
+		self.forward(thickness - cut_width - 2*radius)
+		if radius:
+			self.arc(-90, radius)
+		else:
+			self.left(90)
+		self.forward(depth - cut_width/2 - radius)
 		self.right(90)
 		self.forward(cut_width/2)
 	
