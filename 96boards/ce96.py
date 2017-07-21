@@ -2,30 +2,53 @@ from laser.util import *
 
 w = 85
 h = 54
+h_ext = 100
 r = 5
 
-def drill_holes(d, r=5):
+def drill_holes(d, r=5, extended=False):
 	g = d.g()
 
 	g.add(d.circle((r+4, r+18.5), 2.5/2, **cut))
-	g.add(d.circle((r+4, r+50), 2.5/2, **cut))
 	g.add(d.circle((r+81, r+18.5), 2.5/2, **cut))
+	g.add(d.circle((r+4, r+50), 2.5/2, **cut))
 	g.add(d.circle((r+81, r+50), 2.5/2, **cut))
+	if extended:
+		g.add(d.circle((r+4, r+96), 2.5/2, **cut))
+		g.add(d.circle((r+81, r+96), 2.5/2, **cut))
 
 	return g
 
-def base(d, r=5):
+def low_speed_connector(d, r=5):
+	width = 43
+	height = 6.5
+	center = (2*10 + 38) / 2
+	x = r + w - center - width/2
+	y = r + h - 4 - height/2
+
+	return d.rect((x, y), (width, height), **cut)
+
+def base(d, r=5, extended=False):
 	g = d.g()
 
-	g.add(d.rect((0, 0), (w+r+r, h+r+r), r, r, **cut))
-	g.add(drill_holes(d, r))
+	if extended:
+		ht = h_ext
+	else:
+		ht = h
+
+	g.add(d.rect((0, 0), (w+r+r, ht+r+r), r, r, **cut))
+	g.add(drill_holes(d, r, extended))
 
 	return g
 
 top = base
 
-def top(d, r=5, hdmi_cutout=True, uart_cutout=False):
+def top(d, r=5, extended=False, hdmi_cutout=True, uart_cutout=False):
 	g = d.g()
+
+	if extended:
+		ht = h_ext
+	else:
+		ht = h
 
 	p = Turtle(d.path(('M', 0, r), **cut))
 
@@ -44,18 +67,18 @@ def top(d, r=5, hdmi_cutout=True, uart_cutout=False):
 		p.forward(w)
 
 	p.arc(90, r)
-	p.forward(h)
+	p.forward(ht)
 
 	# Bottom edge has a detour to make space for the uart board
 	p.arc(90, r)
 	if uart_cutout:
 		p.forward(w - (35+42+r))
 		p.arc(90, r)
-		p.forward(15+r)
+		p.forward(15)
 		p.left(90)
 		p.forward(42)
 		p.left(90)
-		p.forward(15+r)
+		p.forward(15)
 		p.arc(90, r)
 		p.forward(35-r)
 	else:
@@ -74,21 +97,21 @@ def top_uart(d, r=5):
 def side(d, r=5):
 	g = d.g()
 
-	p = d.path(('M', 0, r), **cut)
-	p.push_arc((2*r, 0), 0, r, large_arc=False)
-	p.push('l', -r, 0) 
-	p.push('l', 0, 18.5 - 2.5)
-	p.push('l', 4, 0)
-	p.push_arc((0, 5), 0, 2.5, large_arc=False)
-	p.push('l', -4, 0)
-	p.push('l', 0, 50 - 18.5 - 2.5 - 2.5)
-	p.push('l', 4, 0)
-	p.push_arc((0, 5), 0, 2.5, large_arc=False)
-	p.push('l', -4, 0)
-	p.push('l', 0, (h+r) - 50 - 2.5)
-	p.push_arc((-r, -r), 0, r, large_arc=False)
-	p.push('z')
-	g.add(p)
+	p = Turtle(d.path(('M', 0, r), **cut))
+
+	p.arc(90, r)
+	p.right(90).forward(18.5 + r - 2.5)
+	p.left(90).forward(4)
+	p.arc(180, 2.5)
+	p.forward(4)
+	p.left(90).forward(50 - 18.5 - 2.5 - 2.5)
+	p.left(90).forward(4)
+	p.arc(180, 2.5)
+	p.forward(4)
+	p.left(90).forward(h - 50 - 2.5)
+	p.left(90).forward(r)
+	p.right(90).arc(180, r)
+	g.add(p.close())
 
 	g.add(d.circle((r+4, r+18.5), 2.5/2, **cut))
 	g.add(d.circle((r+4, r+50), 2.5/2, **cut))
