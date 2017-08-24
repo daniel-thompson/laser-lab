@@ -4,7 +4,7 @@ from laser.util import *
 from ce96 import w, h
 import ce96
 
-d = panel('ce96_hikey960.svg', 161, 138)
+d = panel('ce96_hikey960.svg', w + 10 + 60, 2 * (h+10) +2)
 
 def top_uart(d, r=5):
 	g = d.g()
@@ -41,21 +41,12 @@ def top_uart(d, r=5):
 	return g
 
 d.add(ce96.base(d))
-d.add(translate(top_uart(d), 0, 66))
+d.add(translate(top_uart(d), 0, h + 12))
 
-d.add(rotate(translate(ce96.side(d), 97+64,   0   ),  90))
-d.add(rotate(translate(ce96.side(d), 97   ,   0+18), -90))
-d.add(rotate(translate(ce96.side(d), 97+64,  20   ),  90))
-d.add(rotate(translate(ce96.side(d), 97   ,  20+18), -90))
-d.add(rotate(translate(ce96.side(d), 97+64,  40   ),  90))
-d.add(rotate(translate(ce96.side(d), 97   ,  40+18), -90))
-d.add(rotate(translate(ce96.side(d), 97+64,  60   ),  90))
-d.add(rotate(translate(ce96.side(d), 97   ,  60+18), -90))
-d.add(rotate(translate(ce96.side(d), 97+64,  80   ),  90))
-d.add(rotate(translate(ce96.side(d), 97   ,  80+18), -90))
-d.add(rotate(translate(ce96.side(d), 97+64, 100   ),  90))
-d.add(rotate(translate(ce96.side(d), 97   , 100+18), -90))
-d.add(rotate(translate(ce96.side(d), 97+64, 120   ),  90))
-d.add(rotate(translate(ce96.side(d), 97   , 120+18), -90))
+for i in range(0, 60, 20):
+	d.add(translate(ce96.side(d), w + 12 + i, 0))
+	d.add(translate(ce96.side(d), w + 12 + i, h + 12))
+	d.add(rotate(translate(ce96.side(d), w + 12 + 18 + i, 64), 180))
+	d.add(rotate(translate(ce96.side(d), w + 12 + 18 + i, 64 + h + 12), 180))
 
 d.save()
