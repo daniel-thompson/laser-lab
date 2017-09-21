@@ -12,8 +12,9 @@ all : $(ART) $(DOCS)
 # for people who simply want to download the artwork without cloning
 # the source (or running any python)
 clean :
-	@echo "WARNING: clean is not implemented; touching a dependancy instead"
+	@echo "WARNING: svg files will not be cleaned; touching a dependancy instead"
 	touch laser/util.py
+	$(RM) $(DOCS)
 
 %.svg : %.py
 	$(PYTHON) $< $@
