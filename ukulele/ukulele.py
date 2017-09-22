@@ -15,6 +15,7 @@ from laser.util import *
 #  * Add intersection boundaries (grey boxes: top to 280mm and 140mm to bottom)
 #  * Add outlines for the tuner mounts (24x100mm)
 #  * Experiment with additional body curves
+#  * Add assembly holes
 
 # dimensions
 scale=348
@@ -30,6 +31,7 @@ saddle=60
 tailpiece_radius=14
 bottom_radius=15
 cutout_radius=5
+thickness=4
 
 # calculated Y offsets
 fretboard_y = anchor_height + nut_height
@@ -202,21 +204,23 @@ def layer(l=1):
 		cc_depth = 0
 		cc_lip = 0
 	elif l == 2 or l == 9:
-		cc_depth = 4
+		cc_depth = thickness
 		cc_lip = 0
 	elif l == 3 or l == 8:
 		cc_depth = 40
-		cc_lip = 6
+		cc_lip = thickness
 	else:
 		cc_depth = 40
 		cc_lip = 0
 	cc_width = (base_width - saddle)/2 - cutout_radius
-	print(cc_width)
 	cc_width -= 2*cc_lip
 
+	p.right(90)
+	p.forward(cc_lip)
+	p.left(90)
 	p.forward(cc_lip)
 	p.right(90)
-	p.forward(cc_depth)
+	p.forward(cc_depth-cc_lip)
 	if cc_depth > 4:
 		p.arc(-90, 5)
 		p.forward(cc_width - 10)
@@ -225,9 +229,12 @@ def layer(l=1):
 		p.left(90)
 		p.forward(cc_width)
 		p.left(90)
-	p.forward(cc_depth)
+	p.forward(cc_depth-cc_lip)
 	p.right(90)
 	p.forward(cc_lip)
+	p.left(90)
+	p.forward(cc_lip)
+	p.right(90)
 
 	# bottom edge
 	if l <= 6:
@@ -314,18 +321,12 @@ def layer(l=1):
 		g.add(mixin(cutout(), rotate=180+th, translate=(body_wing-20, -(scale-55))))
 		g.add(mixin(cutout(), rotate=-th, translate=( body_wing-20, scale-55)))
 
-	# Control cavities
-	#w = 20
-	#h = 35
-	#x = saddle/2 + 6 + w/2
-	#y = fretboard_y + scale/2 + body_height + h/2 - (h+6)
-	#if l > 1 and l <=9:
-	#	g.add(mixin(d.rect((-(w/2), -(h/2)), (w, h), 5, 5, **cut),
-	#		    translate=(-x, y)))
-	#	g.add(mixin(d.rect((-(w/2), -(h/2)), (w, h), 5, 5, **cut),
-	#		    translate=( x, y)))
+	# Alignment dowels
+	if l <= 4:
+		g.add(d.circle((0, body_height-20), 2, **cut))
+		g.add(d.circle((0, body_height-90), 2, **cut))
 
-
+	
 	return g
 
 def bridge():
