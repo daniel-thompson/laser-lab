@@ -3,6 +3,29 @@ from laser.util import *
 w = 60
 h = 30
 
+def drill_holes(d, r=5):
+	g = d.g()
+
+	g.add(d.circle((r+4, r+4), 2.5/2, **cut))
+	g.add(d.circle((r+4, r+26), 2.5/2, **cut))
+	g.add(d.circle((r+56, r+4), 2.5/2, **cut))
+	g.add(d.circle((r+56, r+26), 2.5/2, **cut))
+
+	return g
+
+def low_speed_connector(d, r=5, gpio_3v3=False):
+	if gpio_3v3:
+		# TODO: this cutout *may* be 0.5mm to wide
+		return d.rect((r+7.5, r+0.35), (41.0, 7.3), 0, 0, **cut)
+
+	width = 43
+	height = 6.5
+	center = (2*10 + 38) / 2
+	x = r + center - width/2
+	y = r + 4 - height/2
+
+	return d.rect((x, y), (width, height), **cut)
+
 def base(d, r=5):
 	g = d.g()
 
@@ -21,10 +44,7 @@ def base(d, r=5):
 	t.close()
 	g.add(p)
 
-	g.add(d.circle((r+4, r+4), 2.5/2, **cut))
-	g.add(d.circle((r+4, r+26), 2.5/2, **cut))
-	g.add(d.circle((r+56, r+4), 2.5/2, **cut))
-	g.add(d.circle((r+56, r+26), 2.5/2, **cut))
+	g.add(drill_holes(d, r))
 
 	return g
 

@@ -13,9 +13,10 @@ from laser.util import *
 #  * Add control cavity/sound chamber to inner layers
 #  * Add control cavity cover to bottom layer
 #  * Add intersection boundaries (grey boxes: top to 280mm and 140mm to bottom)
-#  * Add outlines for the tuner mounts (24x100mm)
+#  * Update the tuner mounts with updated tuner drill holes
 #  * Experiment with additional body curves
 #  * Add assembly holes
+#
 
 # dimensions
 scale=348
@@ -37,11 +38,11 @@ thickness=4
 fretboard_y = anchor_height + nut_height
 bridge_y = fretboard_y + scale
 
-d = panel('fretboard.svg', 1950, 420)
+d = panel('fretboard.svg', 2100, 420)
 
 def fret(n):
 	'''Position frets using a basic "rule of 18" algorithm.
-	
+
 	Might be better to replace this with a more sophisticated algorithm!
 	Perhaps:
 	http://www.luth.org/images/web_extras/al116/MagliariFretComp.pdf
@@ -81,50 +82,6 @@ def fretboard(num_frets=12):
 	for i in (5, 7, 10):
 		y = (fret(i) + fret(i-1)) / 2
 		g.add(d.circle((0, y), 2, **engrave))
-
-	return g
-
-def top():
-	br = bottom_radius
-	th = trig.theta(o=(twelfth-nut_width), a=scale)
-
-	g = d.g()
-
-	# Main outline
-	p = Turtle(d.path(('M', -nut_width/2, 0), **cut))
-	p.right(90)
-	p.forward(nut_width)
-	p.right(90)
-	p.forward(15)
-	p.left(th)
-	p.forward(trig.hyp(th=th, a=scale/2))
-	p.curvexy((body_wing, curve_height), th, (40, 60))
-	p.forward(scale/2 - 100 + 50 - br)
-	p.arc(90, br)
-	base_width = -br+body_wing+twelfth+body_wing-br
-	p.forward((base_width - saddle)/2 - cutout_radius)
-	p.arc(90, cutout_radius)
-	p.forward(2*tailpiece_radius)
-	p.left(90)
-	p.forward(saddle)
-	p.left(90)
-	p.forward(2*tailpiece_radius)
-	p.arc(90, cutout_radius)
-	p.forward((base_width - saddle)/2 - cutout_radius)
-	p.arc(90, br)
-	p.forward(scale/2 - 100 + 50 - br)
-	p.curvexy((body_wing, -curve_height), th, (60, 40))
-	g.add(p.close())
-
-	# Cutouts for tuners
-	h = 80
-	w = 40
-	g.add(mixin(d.rect((-(w/2), -(h/2)), (w, h), w/2, w/2, **cut),
-		    rotate=th,
-		    translate=(-30, scale-55)))
-	g.add(mixin(d.rect((-(w/2), -(h/2)), (w, h), w/2, w/2, **cut),
-		    rotate=-th,
-		    translate=( 30, scale-55)))
 
 	return g
 
@@ -329,12 +286,24 @@ def layer(l=1):
 	
 	return g
 
-def bridge():
+def bridge(saddle_cutout=True):
 	g = d.g()
 
-	# piezo will likely be 55x2.3x3mm (so is probably best to cut two bridge pieces from 3mm ply and stack
-	g.add(d.rect((-saddle/2, 0), (saddle, 3), **cut))
+	# piezo will likely be 55x2.3x3mm (so is probably best to cut
+        # two bridge pieces from 3mm ply and stack)
+	if saddle_cutout:
+		g.add(d.rect((-saddle/2, 0), (saddle, 3), **cut))
 	g.add(d.rect((-saddle/2 - 16, -8), (saddle + 32, 3+16), **cut))
+
+	return g
+
+def tuner_mount():
+	g = d.g()
+
+	g.add(d.rect((0, 0), (20, 100), **cut))
+	# TODO: neither the position nor the radius is correct
+	g.add(d.circle((10, 30), 3, **cut))
+	g.add(d.circle((10, 80), 3, **cut))
 
 	return g
 
@@ -361,12 +330,11 @@ def tailpiece():
 	return d.rect((-saddle/2, 0), (saddle, 2*tailpiece_radius), **raster)
 
 
-def xpos(n): 
-	return 75 + 150*n
+def xpos(n):
+	return 75 + 160*n
 
 # Overall diagram
-#d.add(translate(top(), xpos(0), 0))
-d.add(translate(layer(1), xpos(0), 0)) # Verify layer(1) matches top()
+d.add(translate(layer(1), xpos(0), 0))
 d.add(translate(fretboard(15), xpos(0), fretboard_y))
 d.add(translate(bridge(), xpos(0), bridge_y))
 d.add(translate(nut(), xpos(0), 10))
@@ -378,11 +346,18 @@ for i in range(1, 11):
 	d.add(translate(layer(i), xpos(1), 0))
 d.add(translate(bridge(), xpos(1), bridge_y))
 
+# Add some tuner mounts
+for i in range(7, 11):
+	d.add(translate(tuner_mount(), xpos(2+i)+5, 0))
+	d.add(translate(tuner_mount(), xpos(2+i)-25, 0))
 
 # Component diagrams
 d.add(translate(fretboard(15), xpos(2), 15))
 d.add(translate(bridge(), xpos(2), bridge_y))
-d.add(translate(bridge(), xpos(2), bridge_y-20))
+d.add(translate(bridge(), xpos(2), bridge_y-30))
 for i in range(1, 11):
 	d.add(translate(layer(i), xpos(2+i), 0))
+	if i > 1 and i < 4:
+		d.add(translate(
+			bridge(saddle_cutout=False), xpos(2+i), bridge_y))
 d.save()

@@ -44,18 +44,20 @@ def top_poplar(d, r=5, access_spdif=False):
 
 	return g
 
-def pci_standoff(d):
+def pci_standoff(d, top_standoff=15, base_standoff=8):
+	pci_height=0
+
 	p = Turtle(d.path(('M', 0, 0), **cut))
 
 	p.right(90)
-	p.forward(18)
+	p.forward(18) # depth
 	p.right(90)
-	p.forward(24.5)
+	p.forward(top_standoff + base_standoff + 1.6) # long side
 	p.right(90)
-	p.forward(18)
+	p.forward(18) # depth
 	p.right(90)
-	p.forward(8)
-	p.slot(13, 1.5)
+	p.forward(base_standoff)
+	p.slot(13, 1.6)
 	p.forward(7)
 
 	p.arc(90, 0.3)
