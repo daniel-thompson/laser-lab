@@ -301,9 +301,8 @@ def tuner_mount():
 	g = d.g()
 
 	g.add(d.rect((0, 0), (20, 100), **cut))
-	# TODO: neither the position nor the radius is correct
-	g.add(d.circle((10, 30), 3, **cut))
-	g.add(d.circle((10, 80), 3, **cut))
+	g.add(d.circle((10, 25+7), 9.6/2, **cut))
+	g.add(d.circle((10, 75+7), 9.6/2, **cut))
 
 	return g
 
