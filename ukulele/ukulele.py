@@ -7,17 +7,6 @@ import math
 from laser import trig
 from laser.util import *
 
-#
-# TODO
-#
-#  * Add control cavity/sound chamber to inner layers
-#  * Add control cavity cover to bottom layer
-#  * Add intersection boundaries (grey boxes: top to 280mm and 140mm to bottom)
-#  * Update the tuner mounts with updated tuner drill holes
-#  * Experiment with additional body curves
-#  * Add assembly holes
-#
-
 # dimensions
 scale=348
 anchor_height=10
@@ -278,10 +267,21 @@ def layer(l=1):
 		g.add(mixin(cutout(), rotate=180+th, translate=(body_wing-20, -(scale-55))))
 		g.add(mixin(cutout(), rotate=-th, translate=( body_wing-20, scale-55)))
 
-	# Alignment dowels
+	# Alignment dowels and bridge sound chanber
 	if l <= 4:
-		g.add(d.circle((0, body_height-20), 2, **cut))
-		g.add(d.circle((0, body_height-90), 2, **cut))
+		g.add(d.circle((0, body_height-180), 2.5, **cut))
+		g.add(d.circle((0, body_height-100), 2.5, **cut))
+	g.add(d.circle((0, body_height-20), 2.5, **cut))
+	if l > 1 and l < 4:
+		# The translate doesn't work... it ends up overriding
+		# the translate applied to the group. Currently we workaround
+		# this by drawing the bridge in the main draw loop.
+		g.add(translate(bridge(saddle_cutout=False), 0, bridge_y))
+	else:
+		g.add(d.circle((-30-8, bridge_y+1.5), 2.5, **cut))
+		g.add(d.circle((30+8, bridge_y+1.5), 2.5, **cut))
+	if l > 1 and l < 7:
+		g.add(d.circle((0, body_height+70), 2.5, **cut))
 
 	
 	return g
@@ -303,6 +303,17 @@ def tuner_mount():
 	g.add(d.rect((0, 0), (20, 100), **cut))
 	g.add(d.circle((10, 25+7), 9.6/2, **cut))
 	g.add(d.circle((10, 75+7), 9.6/2, **cut))
+
+	return g
+
+def control_cavity_cover():
+	g = d.g()
+	
+	base_width = -bottom_radius+body_wing+twelfth+body_wing-bottom_radius
+	cc_width = (base_width - saddle)/2 - cutout_radius
+
+	g.add(d.rect((0, 0), (cc_width, 32), **cut))
+	g.add(d.circle((cc_width/2, 16), 4, **cut))
 
 	return g
 
@@ -349,14 +360,23 @@ d.add(translate(bridge(), xpos(1), bridge_y))
 for i in range(7, 11):
 	d.add(translate(tuner_mount(), xpos(2+i)+5, 0))
 	d.add(translate(tuner_mount(), xpos(2+i)-25, 0))
+d.add(translate(control_cavity_cover(), xpos(2+6), 0))
 
 # Component diagrams
 d.add(translate(fretboard(15), xpos(2), 15))
 d.add(translate(bridge(), xpos(2), bridge_y))
 d.add(translate(bridge(), xpos(2), bridge_y-30))
+outline = { 'fill': 'none', 'stroke': 'lightgrey', 'stroke-width': 0.5 }
 for i in range(1, 11):
 	d.add(translate(layer(i), xpos(2+i), 0))
-	if i > 1 and i < 4:
-		d.add(translate(
-			bridge(saddle_cutout=False), xpos(2+i), bridge_y))
+	if i > 4:
+		d.add(d.rect((xpos(2+i)-80, 140), (160, 280), **outline))
+	elif i % 2 == 0:
+		d.add(d.rect((xpos(2+i)-80, 0), (160, 280), **outline))
+		d.add(d.rect((xpos(2+i)-80, 280), (160, 140), **outline))
+	else:
+		d.add(d.rect((xpos(2+i)-80, 0), (160, 140), **outline))
+		d.add(d.rect((xpos(2+i)-80, 140), (160, 280), **outline))
+
+
 d.save()
