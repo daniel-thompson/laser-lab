@@ -17,8 +17,7 @@ import iot96
 def base(d, r=5):
 	g = d.g()
 
-	p = d.path(('M', 0, r), **cut)
-	t = Turtle(p)
+	t = d.turtle(('M', 0, r), **cut)
 	t.arc(90, r)
 	t.forward(w)
 	t.arc(90, r)
@@ -28,8 +27,7 @@ def base(d, r=5):
 	t.arcto(18, 14, large_arc=False, angle_dir='-')
 	t.forward(26-9)
 	t.arc(90, r)
-	t.close()
-	g.add(p)
+	g.add(t.close())
 
 	g.add(translate(iot96.drill_holes(d, r), 0, 5))
 
@@ -42,8 +40,7 @@ def base(d, r=5):
 def top(d, r=5):
 	g = d.g()
 
-	p = d.path(('M', 0, r), **cut)
-	t = Turtle(p)
+	t = d.turtle(('M', 0, r), **cut)
 	t.arc(90, r)
 	t.forward(w)
 	t.arc(90, r)
@@ -64,9 +61,7 @@ def top(d, r=5):
 	t.arcto(18, 14, large_arc=False, angle_dir='-')
 	t.forward(26-9)
 	t.arc(90, r)
-	t.close()
-	g.add(p)
-
+	g.add(t.close())
 
 	g.add(translate(iot96.low_speed_connector(d, r), 0, 5))
 	g.add(translate(iot96.drill_holes(d, r), 0, 5))
@@ -80,7 +75,7 @@ def pillar(d, r=5, resister_well=False):
 
 	g = d.g()
 
-	t = Turtle(d.path(('M', r, r+4+hole_support), **cut))
+	t = d.turtle(('M', r, r+4+hole_support), **cut)
 	t.left(90)
 	t.arc(90, r)
 	t.forward(4+hole_support-r)
@@ -103,7 +98,7 @@ def side(d, r=5, side_switch=False):
 
 	g = d.g()
 
-	t = Turtle(d.path(('M', 0, r), **cut))
+	t = d.turtle(('M', 0, r), **cut)
 	t.arc(90, r)
 	t.forward(w) # top
 	t.arc(90, r)

@@ -9,7 +9,7 @@ d = panel('ce96_hikey960.svg', w + 10 + 60, 2 * (h+10) +2)
 def top_uart(d, r=5):
 	g = d.g()
 
-	p = Turtle(d.path(('M', 0, r), **cut))
+	p = d.turtle(('M', 0, r), **cut)
 	p.arc(90, r)
 	# Top edge has an arc to allow space to connect the HDMI
 	# (on Hikey960 the HDMI is fairly deep)

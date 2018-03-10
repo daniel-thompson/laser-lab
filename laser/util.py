@@ -118,6 +118,9 @@ def trapez(self, insert=(0, 0), size=(1, 1), lx=0.1, rx=0.1, **extra):
 
 
 
+def turtle(self, d, **extra):
+	return Turtle(self.path(d, **extra))
+
 def bind_method(obj, m):
 	obj.__dict__[m.__name__] = types.MethodType(m, obj)
 
@@ -129,6 +132,7 @@ def panel(name, w, h):
 			size=('{}mm'.format(w), '{}mm'.format(h)),
 			viewBox=('0, 0, {}, {}'.format(w, h)))
 	bind_method(w, trapez)
+	bind_method(w, turtle)
 
 	return w
 

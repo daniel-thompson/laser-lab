@@ -28,7 +28,7 @@ d.add(d.line((2*S, 0), (2*S, H), **engrave))
 
 # Like rect but with rounded corners to highlight each fold
 #d.add(d.rect((0, 0), (W, H), **cut))
-p = Turtle(d.path(('M', 0, B/2), **cut))
+p = d.turtle(('M', 0, B/2), **cut)
 p.arc(90, B/2)
 p.forward(S-B)
 p.arc(90, B/2)

@@ -7,7 +7,7 @@ import ee96
 def top_poplar(d, r=5, access_spdif=False):
 	g = d.g()
 
-	p = Turtle(d.path(('M', 0, r), **cut))
+	p = d.turtle(('M', 0, r), **cut)
 
 	p.arc(90, r)
 	p.forward(73-r)
@@ -47,7 +47,7 @@ def top_poplar(d, r=5, access_spdif=False):
 def pci_standoff(d, top_standoff=15, base_standoff=8):
 	pci_height=0
 
-	p = Turtle(d.path(('M', 0, 0), **cut))
+	p = d.turtle(('M', 0, 0), **cut)
 
 	p.right(90)
 	p.forward(18) # depth

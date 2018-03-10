@@ -50,7 +50,7 @@ def top(d, r=5, extended=False, hdmi_cutout=True, uart_cutout=False):
 	else:
 		ht = h
 
-	p = Turtle(d.path(('M', 0, r), **cut))
+	p = d.turtle(('M', 0, r), **cut)
 
 	# Top edge has an arc to allow space to connect the HDMI
 	# (on Hikey960 the HDMI is fairly deep)
@@ -97,7 +97,7 @@ def top_uart(d, r=5):
 def side(d, r=5):
 	g = d.g()
 
-	p = Turtle(d.path(('M', 0, r), **cut))
+	p = d.turtle(('M', 0, r), **cut)
 
 	p.arc(90, r)
 	p.right(90).forward(18.5 + r - 2.5)

@@ -51,7 +51,7 @@ def fretboard(num_frets=12):
 	g = d.g()
 
 	# Outline
-	p = Turtle(d.path(('M', -nut_width/2, 0), **cut))
+	p = d.turtle(('M', -nut_width/2, 0), **cut)
 	p.right(90)
 	p.forward(nut_width)
 	p.right(90-th)
@@ -96,9 +96,9 @@ def layer(l=1):
 
 	# Main outline
 	if l < len(curve_nut)+1:
-		p = Turtle(d.path(('M', -nut_width/2, 0), **cut))
+		p = d.turtle(('M', -nut_width/2, 0), **cut)
 	else:
-		p = Turtle(d.path(('M', -top_width/2, fretboard_y+scale/2), **cut))
+		p = d.turtle(('M', -top_width/2, fretboard_y+scale/2), **cut)
 
 	# top edge
 	if l < len(curve_nut)+1:
@@ -246,7 +246,7 @@ def layer(l=1):
 			    translate=( (body_wing-20), scale-55)))
 	else:
 		def cutout():
-			p = Turtle(d.path(('M', -w/2, -h/2), **cut))
+			p = d.turtle(('M', -w/2, -h/2), **cut)
 			p.forward(10)
 			p.right(90)
 			p.forward(16)

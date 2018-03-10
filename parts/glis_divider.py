@@ -22,7 +22,7 @@ def slot(p):
 	p.right(90)
 
 def long_piece(x, y):
-	p = Turtle(d.path(('M', x, y), **cut))
+	p = d.turtle(('M', x, y), **cut)
 	p.right(90)
 	p.forward(10.5)
 	slot(p)
@@ -39,7 +39,7 @@ def long_piece(x, y):
 	return p.close()
 
 def cross_piece(x, y):
-	p = Turtle(d.path(('M', x, y), **cut))
+	p = d.turtle(('M', x, y), **cut)
 	p.right(90)
 	p.forward(89)
 	p.right(94.51)

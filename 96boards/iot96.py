@@ -30,8 +30,7 @@ def base(d, r=5):
 	g = d.g()
 
 	#g.add(d.rect((0, 0), (w+r+r, h+r+r), r, r, **cut))
-	p = d.path(('M', 0, r), **cut)
-	t = Turtle(p)
+	t = d.turtle(('M', 0, r), **cut)
 	t.arc(90, r)
 	t.forward(w)
 	t.arc(90, r)
@@ -41,8 +40,7 @@ def base(d, r=5):
 	t.arcto(20, 16, large_arc=False, angle_dir='-')
 	t.forward(26-10)
 	t.arc(90, r)
-	t.close()
-	g.add(p)
+	g.add(t.close())
 
 	g.add(drill_holes(d, r))
 
@@ -60,7 +58,7 @@ def pillar(d, r=5):
 
 	g = d.g()
 
-	t = Turtle(d.path(('M', r, r+4+hole_support), **cut))
+	t = d.turtle(('M', r, r+4+hole_support), **cut)
 	t.left(90)
 	t.arc(90, r)
 	t.forward(4+hole_support-r)
@@ -80,7 +78,7 @@ def side(d, r=5):
 
 	g = d.g()
 
-	t = Turtle(d.path(('M', 0, r), **cut))
+	t = d.turtle(('M', 0, r), **cut)
 	t.arc(90, r)
 	t.forward(w) # top
 	t.arc(90, r)

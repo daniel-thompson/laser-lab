@@ -26,7 +26,7 @@ toe_depth = math.sqrt(toe_in**2 + depth**2)
 d = panel('really_useful_divider.py', 300, 200)
 
 def side_piece(d, x, y, length):
-	p = Turtle(d.path(('M', x, y), **cut))
+	p = d.turtle(('M', x, y), **cut)
 	p.right(90)
 	p.forward(toe_in)
 	p.forward(length - (thickness/2))
@@ -40,7 +40,7 @@ def side_piece(d, x, y, length):
 bind_method(d, side_piece)
 
 def cross_piece(d, x, y):
-	p = Turtle(d.path(('M', x, y), **cut))
+	p = d.turtle(('M', x, y), **cut)
 	p.right(90)
 	p.forward(2*toe_in + width)
 	p.right(180-toe_angle)

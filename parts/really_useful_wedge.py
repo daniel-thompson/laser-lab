@@ -8,7 +8,7 @@ from laser.util import *
 d = panel('really_useful_wedge.svg', 116, 21)
 
 # Outline
-p = Turtle(d.path(('M', 0, 0), **cut))
+p = d.turtle(('M', 0, 0), **cut)
 
 def groove(p):
     p.move(90, 10)
