@@ -108,15 +108,29 @@ class Turtle(object):
 		self.p.push('z')
 		return self.p
 
+def trapez(self, insert=(0, 0), size=(1, 1), lx=0.1, rx=0.1, **extra):
+	return self.path(
+			('M', insert[0]+lx, insert[1],
+			 'l', size[0]-lx-rx, 0,
+			 'l', rx, size[1],
+			 'l', -size[0], 0,
+			 'z'), **extra)
+
+
+
 def bind_method(obj, m):
 	obj.__dict__[m.__name__] = types.MethodType(m, obj)
 
 def panel(name, w, h):
 	if len(sys.argv) >= 2:
 		name = sys.argv[1]
-	return svgwrite.Drawing(name,
+
+	w = svgwrite.Drawing(name,
 			size=('{}mm'.format(w), '{}mm'.format(h)),
 			viewBox=('0, 0, {}, {}'.format(w, h)))
+	bind_method(w, trapez)
+
+	return w
 
 def mixin(g, rotate=None, center=None, translate=None):
 	if rotate:
