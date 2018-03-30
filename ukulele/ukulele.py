@@ -29,6 +29,23 @@ bridge_y = fretboard_y + scale
 
 d = panel('fretboard.svg', 2100, 420)
 
+def dowel(self, center, **extra):
+	'''Generate a hole for a 4mm rectangular dowel
+	
+	See parts/dowel_4mm.py for corresponding rods. We have included an allowance for
+	angled cuts (based on K40 laser angles) and the API deliberately matches that of
+	the circle factory method (to allow for easy replacement of circular dowels)
+	'''
+	sz = 3.7
+
+	t = translate(rotate(self.trapez((-sz/2, -sz/2), (sz, sz), 0.1, 0.1, **extra), 45), center[0], center[1])
+	g = self.g()
+	g.add(t)
+
+	return g
+
+bind_method(d, dowel)
+
 def fret(n):
 	'''Position frets using a basic "rule of 18" algorithm.
 
@@ -70,7 +87,7 @@ def fretboard(num_frets=12):
 	# Inlays
 	for i in (5, 7, 10):
 		y = (fret(i) + fret(i-1)) / 2
-		g.add(d.circle((0, y), 2, **engrave))
+		g.add(d.dowel((0, y), **engrave))
 
 	return g
 
@@ -237,7 +254,7 @@ def layer(l=1):
 	# Cutouts for tuners
 	h = 80
 	w = 40
-	if l <= 5:
+	if l <= 4:
 		g.add(mixin(d.rect((-(w/2), -(h/2)), (w, h), w/2, w/2, **cut),
 			    rotate=th,
 			    translate=(-(body_wing-20), scale-55)))
@@ -269,19 +286,19 @@ def layer(l=1):
 
 	# Alignment dowels and bridge sound chanber
 	if l <= 4:
-		g.add(d.circle((0, body_height-180), 2.5, **cut))
-		g.add(d.circle((0, body_height-100), 2.5, **cut))
-	g.add(d.circle((0, body_height-20), 2.5, **cut))
+		g.add(d.dowel((0, body_height-180), **cut))
+		g.add(d.dowel((0, body_height-100), **cut))
+	g.add(d.dowel((0, body_height-20), **cut))
 	if l > 1 and l < 4:
 		# The translate doesn't work... it ends up overriding
 		# the translate applied to the group. Currently we workaround
 		# this by drawing the bridge in the main draw loop.
 		g.add(translate(bridge(saddle_cutout=False), 0, bridge_y))
 	else:
-		g.add(d.circle((-30-8, bridge_y+1.5), 2.5, **cut))
-		g.add(d.circle((30+8, bridge_y+1.5), 2.5, **cut))
+		g.add(d.dowel((-30-8, bridge_y+1.5), **cut))
+		g.add(d.dowel((30+8, bridge_y+1.5), **cut))
 	if l > 1 and l < 7:
-		g.add(d.circle((0, body_height+70), 2.5, **cut))
+		g.add(d.dowel((0, body_height+70), **cut))
 
 	
 	return g
@@ -352,22 +369,22 @@ d.add(translate(strings(), xpos(0), 0))
 d.add(translate(tailpiece(), xpos(0), bridge_y+42-25))
 
 # Layered diagram (check overall shape)
-for i in range(1, 11):
+for i in range(1, 10):
 	d.add(translate(layer(i), xpos(1), 0))
 d.add(translate(bridge(), xpos(1), bridge_y))
 
 # Add some tuner mounts
-for i in range(7, 11):
+for i in range(6, 10):
 	d.add(translate(tuner_mount(), xpos(2+i)+5, 0))
 	d.add(translate(tuner_mount(), xpos(2+i)-25, 0))
-d.add(translate(control_cavity_cover(), xpos(2+6), 0))
+d.add(translate(control_cavity_cover(), xpos(2+5), 0))
 
 # Component diagrams
 d.add(translate(fretboard(15), xpos(2), 15))
 d.add(translate(bridge(), xpos(2), bridge_y))
 d.add(translate(bridge(), xpos(2), bridge_y-30))
 outline = { 'fill': 'none', 'stroke': 'lightgrey', 'stroke-width': 0.5 }
-for i in range(1, 11):
+for i in range(1, 10):
 	d.add(translate(layer(i), xpos(2+i), 0))
 	if i > 4:
 		d.add(d.rect((xpos(2+i)-80, 140), (160, 280), **outline))
