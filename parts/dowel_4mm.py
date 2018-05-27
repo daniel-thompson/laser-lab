@@ -14,9 +14,12 @@ n = 6
 cut_width_top = 0.2
 cut_width_bottom = 0.4
 
-# This should be as small as possible but must be large enough to
-# force the cutter to cut the horizonal lines before cutting off the
-# ends.
+# The dowels are drawn with a tiny gap between the horizontal and
+# vertical lines. This convinces (some) routing algorithms to cut
+# *all* the horizontal lines first and the vertical lines second.
+# This should be as small as possible, and must be smaller than the
+# cut width of your machine otherwise the dowels won't be fully
+# cut out.
 force_cut_order = 0.1
 
 W = w + cut_width_top
