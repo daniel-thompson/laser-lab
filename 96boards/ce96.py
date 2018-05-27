@@ -94,7 +94,7 @@ def top(d, r=5, extended=False, hdmi_cutout=True, uart_cutout=False):
 def top_uart(d, r=5):
 	return top(d, r, uart_cutout=True)
 
-def side(d, r=5):
+def side(d, r=5, extra_depth=0):
 	g = d.g()
 
 	p = d.turtle(('M', 0, r), **cut)
@@ -103,9 +103,9 @@ def side(d, r=5):
 	p.right(90).forward(18.5 + r - 2.5)
 	p.left(90).forward(4)
 	p.arc(180, 2.5)
-	p.forward(4)
+	p.forward(4+extra_depth)
 	p.left(90).forward(50 - 18.5 - 2.5 - 2.5)
-	p.left(90).forward(4)
+	p.left(90).forward(4+extra_depth)
 	p.arc(180, 2.5)
 	p.forward(4)
 	p.left(90).forward(h - 50 - 2.5)

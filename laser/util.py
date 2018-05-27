@@ -116,10 +116,16 @@ def trapez(self, insert=(0, 0), size=(1, 1), lx=0.1, rx=0.1, **extra):
 			 'l', -size[0], 0,
 			 'z'), **extra)
 
-
-
 def turtle(self, d, **extra):
 	return Turtle(self.path(d, **extra))
+
+def washer(self, center, rs, rl, cut_width=0.2, **extra):
+	g = self.g()
+
+	g.add(self.circle(center, (rs - cut_width), **extra))
+	g.add(self.circle(center, (rl + cut_width), **extra))
+
+	return g
 
 def bind_method(obj, m):
 	obj.__dict__[m.__name__] = types.MethodType(m, obj)
@@ -133,6 +139,7 @@ def panel(name, w, h):
 			viewBox=('0, 0, {}, {}'.format(w, h)))
 	bind_method(w, trapez)
 	bind_method(w, turtle)
+	bind_method(w, washer)
 
 	return w
 
