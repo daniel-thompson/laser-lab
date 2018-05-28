@@ -366,7 +366,11 @@ d.add(translate(control_cavity_cover(), xpos(2+6), 0))
 # Component diagrams
 d.add(translate(fretboard(15), xpos(2), 15))
 d.add(translate(bridge(), xpos(2), bridge_y))
+d.add(d.dowelling((xpos(2)-30-8, bridge_y+1.5), dowelsz, **cut))
+d.add(d.dowelling((xpos(2)+30+8, bridge_y+1.5), dowelsz, **cut))
 d.add(translate(bridge(), xpos(2), bridge_y-30))
+d.add(d.dowelling((xpos(2)-30-8, bridge_y-30+1.5), dowelsz, **cut))
+d.add(d.dowelling((xpos(2)+30+8, bridge_y-30+1.5), dowelsz, **cut))
 outline = { 'fill': 'none', 'stroke': 'lightgrey', 'stroke-width': 0.5 }
 for i in range(1, 11):
 	d.add(translate(layer(i), xpos(2+i), 0))
