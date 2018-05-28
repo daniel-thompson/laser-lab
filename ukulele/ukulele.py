@@ -22,6 +22,7 @@ tailpiece_radius=14
 bottom_radius=15
 cutout_radius=5
 thickness=4
+dowelsz = (3.9, 3.9)
 
 # calculated Y offsets
 fretboard_y = anchor_height + nut_height
@@ -269,19 +270,19 @@ def layer(l=1):
 
 	# Alignment dowels and bridge sound chanber
 	if l <= 4:
-		g.add(d.circle((0, body_height-180), 2.5, **cut))
-		g.add(d.circle((0, body_height-100), 2.5, **cut))
-	g.add(d.circle((0, body_height-20), 2.5, **cut))
+		g.add(d.dowelling((0, body_height-180), dowelsz, **cut))
+		g.add(d.dowelling((0, body_height-100), dowelsz, **cut))
+	g.add(d.dowelling((0, body_height-20), dowelsz, **cut))
 	if l > 1 and l < 4:
 		# The translate doesn't work... it ends up overriding
 		# the translate applied to the group. Currently we workaround
 		# this by drawing the bridge in the main draw loop.
 		g.add(translate(bridge(saddle_cutout=False), 0, bridge_y))
 	else:
-		g.add(d.circle((-30-8, bridge_y+1.5), 2.5, **cut))
-		g.add(d.circle((30+8, bridge_y+1.5), 2.5, **cut))
+		g.add(d.dowelling((-30-8, bridge_y+1.5), dowelsz, **cut))
+		g.add(d.dowelling((30+8, bridge_y+1.5), dowelsz, **cut))
 	if l > 1 and l < 7:
-		g.add(d.circle((0, body_height+70), 2.5, **cut))
+		g.add(d.dowelling((0, body_height+70), dowelsz, **cut))
 
 	
 	return g
