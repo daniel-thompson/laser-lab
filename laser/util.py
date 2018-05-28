@@ -108,6 +108,46 @@ class Turtle(object):
 		self.p.push('z')
 		return self.p
 
+def dowelling(self, insert=(0, 0), size=(1, 1), angle=45, optics=(0.2, 0.4), **extra):
+	'''Draw a dowelling hole.
+
+	insert describes the centre point of the hole allowing this method
+	to be used as a drop in replacement for a circular dowelling hole
+	in a design.
+
+	size is a (width, height) compound where width is controlled by the
+	cut width and the height describes the thickness of the material
+	being cut.
+
+	optics is a (top, bottom) describes the angle and focus of the laser
+	by describing the width of the cut at the top and bottom of the
+	material.
+	'''
+	size = list(size)
+	size[0] -= optics[0]
+	size[1] -= optics[0]
+
+	# TODO: This calculation is logically broken. kerf is negative,
+	#       meaning the "short" edge of the trapezium will be longer
+	#       then the "long" edge. However these trapezium has been
+	#       tested with a 4mm dowel. Need to review the geometry from
+	#       scratch and retest.
+	#kerf = optics[1] - optics[0]
+	kerf = optics[0] - optics[1]
+
+        # Draw the dowel hole
+	hole = self.trapez((-size[0]/2, -size[1]/2), size, kerf/2, kerf/2, **cut)
+
+	# Rotate
+	hole = rotate(hole, angle)
+
+	# Translate centre to the final position
+	g = self.g()
+	g.add(hole)
+	g = translate(g, insert[0], insert[1])
+
+	return g
+
 def trapez(self, insert=(0, 0), size=(1, 1), lx=0.1, rx=0.1, **extra):
 	return self.path(
 			('M', insert[0]+lx, insert[1],
@@ -137,6 +177,7 @@ def panel(name, w, h):
 	w = svgwrite.Drawing(name,
 			size=('{}mm'.format(w), '{}mm'.format(h)),
 			viewBox=('0, 0, {}, {}'.format(w, h)))
+	bind_method(w, dowelling)
 	bind_method(w, trapez)
 	bind_method(w, turtle)
 	bind_method(w, washer)
