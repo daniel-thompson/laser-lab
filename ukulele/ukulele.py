@@ -16,7 +16,7 @@ curve_height=100
 body_height = scale/2 + 50 # body 'starts' at 12th fret (and its height includes the heel)
 twelfth=43
 body_wing=53.5
-heel_width=12
+heel_width=8
 saddle=60
 tailpiece_radius=14
 bottom_radius=15
@@ -28,7 +28,7 @@ dowelsz = (3.9, 3.9)
 fretboard_y = anchor_height + nut_height
 bridge_y = fretboard_y + scale
 
-d = panel('fretboard.svg', 2100, 420)
+d = panel('fretboard.svg', 2400, 420)
 
 def fret(n):
 	'''Position frets using a basic "rule of 18" algorithm.
@@ -90,7 +90,7 @@ def layer(l=1):
 		body_correction = (twelfth - curve_nut[l-1])/2 - trig.opp(th=th, a=scale/2)
 	else:
 		th = trig.theta(o=(twelfth-nut_width), a=scale)
-		body_correction = ((twelfth - heel_width) * l/10) / 2
+		body_correction = ((twelfth - heel_width) * l/11) / 2
 		top_width = twelfth - 2*body_correction
 
 	g = d.g()
@@ -126,7 +126,7 @@ def layer(l=1):
 		p.right(90)
 	else:
 		p.right(th)
-		height = heel_width/2 + 40 * (1 - math.sin(math.pi * (l-5) / 10))
+		height = heel_width/2 + 40 * (1 - math.sin(math.pi * (l-5) / 11))
 		p.curvexy((top_width/2, -height), 90-th, (height, heel_width/2))
 		p.curvexy((top_width/2, height), 90-th, (heel_width/2, height))
 
@@ -147,13 +147,13 @@ def layer(l=1):
 	base_width = -br+body_wing+twelfth+body_wing-br
 
 	# control cavity
-	if l == 1 or l == 10:
+	if l == 1 or l == 11:
 		cc_depth = 0
 		cc_lip = 0
-	elif l == 2 or l == 9:
+	elif l == 2 or l == 10:
 		cc_depth = thickness
 		cc_lip = 0
-	elif l == 3 or l == 8:
+	elif l == 3 or l == 9:
 		cc_depth = 40
 		cc_lip = thickness
 	else:
@@ -232,7 +232,7 @@ def layer(l=1):
 		p.curvexy((-((nut_width - curve_nut[l-1]) / 2), -fretboard_y), -th, (fretboard_y/2, fretboard_y/2))
 	g.add(p.close())
 
-	# Recalcualte theta since the cut outs are based on the angles of the top layer
+	# Recalculate theta since the cut outs are based on the angles of the top layer
 	th = cutout_th
 
 	# Cutouts for tuners
@@ -301,9 +301,9 @@ def bridge(saddle_cutout=True):
 def tuner_mount():
 	g = d.g()
 
-	g.add(d.rect((0, 0), (20, 100), **cut))
-	g.add(d.circle((10, 25+7), 9.6/2, **cut))
-	g.add(d.circle((10, 75+7), 9.6/2, **cut))
+	g.add(d.rect((0, 0), (24, 100), **cut))
+	g.add(d.circle((11.5, 25+7), 9.6/2, **cut))
+	g.add(d.circle((11.5, 75+7), 9.6/2, **cut))
 
 	return g
 
@@ -313,8 +313,8 @@ def control_cavity_cover():
 	base_width = -bottom_radius+body_wing+twelfth+body_wing-bottom_radius
 	cc_width = (base_width - saddle)/2 - cutout_radius
 
-	g.add(d.rect((0, 0), (cc_width, 32), **cut))
-	g.add(d.circle((cc_width/2, 16), 4, **cut))
+	g.add(d.rect((0, 0), (cc_width, 36), **cut))
+	g.add(d.circle((cc_width/2, 18), 4, **cut))
 
 	return g
 
@@ -353,15 +353,15 @@ d.add(translate(strings(), xpos(0), 0))
 d.add(translate(tailpiece(), xpos(0), bridge_y+42-25))
 
 # Layered diagram (check overall shape)
-for i in range(1, 11):
+for i in range(1, 12):
 	d.add(translate(layer(i), xpos(1), 0))
 d.add(translate(bridge(), xpos(1), bridge_y))
 
 # Add some tuner mounts
-for i in range(7, 11):
+for i in range(8, 12):
 	d.add(translate(tuner_mount(), xpos(2+i)+5, 0))
 	d.add(translate(tuner_mount(), xpos(2+i)-25, 0))
-d.add(translate(control_cavity_cover(), xpos(2+6), 0))
+d.add(translate(control_cavity_cover(), xpos(2+7), 0))
 
 # Component diagrams
 d.add(translate(fretboard(15), xpos(2), 15))
@@ -372,10 +372,11 @@ d.add(translate(bridge(), xpos(2), bridge_y-30))
 d.add(d.dowelling((xpos(2)-30-8, bridge_y-30+1.5), dowelsz, **cut))
 d.add(d.dowelling((xpos(2)+30+8, bridge_y-30+1.5), dowelsz, **cut))
 outline = { 'fill': 'none', 'stroke': 'lightgrey', 'stroke-width': 0.5 }
-for i in range(1, 11):
+for i in range(1, 12):
 	d.add(translate(layer(i), xpos(2+i), 0))
 	if i > 4:
-		d.add(d.rect((xpos(2+i)-80, 140), (160, 280), **outline))
+		#d.add(d.rect((xpos(2+i)-80, 140), (160, 280), **outline))
+                pass
 	elif i % 2 == 0:
 		d.add(d.rect((xpos(2+i)-80, 0), (160, 280), **outline))
 		d.add(d.rect((xpos(2+i)-80, 280), (160, 140), **outline))
